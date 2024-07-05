@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Lista de prestamistas</title>
+	<link rel="stylesheet" th:href="@{/resources/css/normalize.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap-material-design.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/all.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/sweetalert2.min.css}">
+	<script th:src="@{/resources/js/sweetalert2.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/resources/css/jquery.mCustomScrollbar.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/style.css}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+	<link rel="stylesheet" th:href="@{/resources/alertifyjs/css/alertify.css}">
+	<link rel="stylesheet" th:href="@{/resources/alertifyjs/css/alertify.min.css}">
+
+</head>
+
+<body>
+	<!--version 1- Consulta de prestamista!-->
+	<main class="full-box main-container">
+		<section class="full-box nav-lateral">
+			<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div class="full-box nav-lateral-content">
+				<figure class="full-box nav-lateral-avatar">
+					<i class="far fa-times-circle show-nav-lateral"></i>
+					<img src="/resources/assets/img/icon-user.jpg" class="img-fluid" alt="Avatar">
+					<figcaption class="roboto-medium text-center" th:text="${session.nombreUsuario}">
+					</figcaption>
+					<figcaption class="roboto-medium text-center" th:text="${session.nombreRolUsuario}">
+					</figcaption>
+					<input id="grupoUsuario" name="grupoUsuario" type="hidden" th:value="${session.codigoGrupo}">
+				</figure>
+				<div class="full-box nav-lateral-bar"></div>
+				<nav class="full-box nav-lateral-menu">
+					<ul>
+						<li>
+							<a th:href="@{/jefe/home}"><i class="fa fa-home fa-fw"></i> &nbsp; Inicio</a>
+						</li>
+						<li>
+							<a href="#" class="nav-btn-submenu"><i class="fa fa-address-card fa-fw"></i> &nbsp;
+								Prestamistas <i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a th:href="@{/jefe/registro}"><i class="fas fa-plus fa-fw"></i> &nbsp; Agregar
+										Prestamista</a>
+								</li>
+								<li>
+									<a class="btn-lista" href="#"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp;
+										Lista de Prestamistas</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#" class="nav-btn-submenu"><i class="fas fa-file-invoice-dollar fa-fw"></i> &nbsp;
+								Prestamos <i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a th:href="@{/jefe/listaEstadoPrestamo}"><i class="fa fa-hourglass fa-fw"></i>
+										&nbsp; Estado de los Prestamos</a>
+								</li>
+							</ul>
+						</li>
+
+					</ul>
+				</nav>
+			</div>
+		</section>
+
+		<section class="full-box page-content">
+			<nav class="full-box navbar-info">
+				<a href="#" class="float-left show-nav-lateral">
+					<i class="fas fa-exchange-alt"></i>
+				</a>
+				<a href="jefeperfil.html">
+					<i class="fas fa-user-cog"></i>
+				</a>
+				<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
+				</a>
+			</nav>
+
+			<div class="full-box page-header">
+				<h3 class="text-left">
+					<i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTAMISTAS
+				</h3>
+				<p class="text-justify">
+					Listado de los prestamistas, los cuales se encuentran en diferentes grupos asignados.
+				</p>
+			</div>
+
+			<div class="container-fluid">
+				<ul class="full-box list-unstyled page-nav-tabs">
+					<li>
+						<a th:href="@{/jefe/registro}"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRESTAMISTA</a>
+					</li>
+					<li>
+						<a class="active btn-lista" href="#"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp;
+							LISTA DE PRESTAMISTAS</a>
+					</li>
+				</ul>
+			</div>
+
+			<!-- Content here-->
+			<div class="container-fluid">
+				<div class="table-responsive">
+					<table class="table table-dark table-sm">
+						<thead>
+							<tr class="text-center roboto-medium">
+								<th>Prestamo</th>
+								<th>Prestatario</th>
+								<th>Monto</th>
+								<th>Cuotas</th>
+								<th>C.Pagadas</th>
+								<th>C.Pendiente</th>
+								<th>M.Pagado</th>
+								<th>M.Pendiente</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-center" th:each="row:${Prestamista}">
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+
+				<form th:action="@{/jefe/eliminar}" method="post" id="form-eliminar">
+					<input type="hidden" name="codigoEliminar" id="codigo-eliminar">
+					<input type="hidden" name="codigoGrupoFE" id="codigoGrupoFE">
+				</form>
+
+
+
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+						<li class="page-item disabled">
+							<a class="page-link" href="#" tabindex="-1">Previous</a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item">
+							<a class="page-link" href="#">Next</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+
+		</section>
+	</main>
+
+	<form id="formLista" method="post" th:action="@{/jefe/lista}">
+		<input type="hidden" id="codigoGrupoLista" name="codigoGrupoLista">
+	</form>
+
+	<script th:src="@{/resources/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/resources/js/popper.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+	<script th:src="@{/resources/js/jquery.mCustomScrollbar.concat.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap-material-design.min.js}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script th:src="@{/resources/alertifyjs/alertify.js}"></script>
+	<script th:src="@{/resources/alertifyjs/alertify.min.js}"></script>
+	<script>$(document).ready(function () {$('body').bootstrapMaterialDesign();});</script>
+	<script th:src="@{/resources/js/main.js}"></script>
+
+	<script th:inline="javascript" th:if="${MENSAJE!=null}">
+		//recuperar atributo "MENSAJE"
+		let msg =/*[[${MENSAJE}]]*/
+
+			toastr.success(msg, toastr.options = {
+				"timeOut": "2000",
+				"positionClass ": " toast-top-right ",
+			});
+	</script>
+
+	<script>
+		$(document).on("click", ".btn-eliminar", function () {
+			//obtener el código del usuario actual(según el botón eliminar)
+			let cod;
+			cod = $(this).parents("tr").find("td")[0].innerHTML;
+			let codFE;
+			codFE = $("#grupoUsuario").val();
+			//
+			$("#codigo-eliminar").val(cod);
+			$("#codigoGrupoFE").val(codFE);
+			alertify.confirm("ELIMINAR USUARIO", "Seguro de eliminar?",
+				function () {//siiiiiiiiiiiiiiii
+					$("#form-eliminar").submit();
+				},
+				function () {//noooooooooooooooooo 
+					alertify.error('Cancelado!')
+				}).
+				set('labels', {ok: 'Si', cancel: 'No'});
+
+		})
+	</script>
+
+	<script>
+		$(document).on("click", ".btn_filtrar", function (event) {
+			event.preventDefault();
+
+			let cbo = $("#cboPrestatario").val();
+
+			$.get("/jefe/consultaPrestamos?codigoPrestamista=" + cbo, function (response) {
+
+				$("#tableMaterial tbody").empty();
+				$.each(response, function (index, item) {
+					$("#tableMaterial tbody").append(
+						"<tr><td>" + item.codigoPrestamo + "</td><td>" + item.usuarioSolicita.nombreUsuario +
+						"</td><td>" + item.monto + "</td><td>"
+						+ item.cantidadCuotas + "</td><td>"
+						+ item.cuotaPagadas + "</td><td>"
+						+ item.fecha + "</td><td>"
+						+ item.pagado + "</td><td>"
+						+ item.deuda + "</td></tr>"
+					);
+				});
+
+			});
+			console.log("ok")
+		});
+
+	</script>
+
+	<script>
+		$(document).on("click", ".btn-lista", function () {
+			let cod;
+			cod = $("#grupoUsuario").val();
+			$("#codigoGrupoLista").val(cod);
+			$("#formLista").submit();
+		})
+	</script>
+
+</body>
+
+</html>

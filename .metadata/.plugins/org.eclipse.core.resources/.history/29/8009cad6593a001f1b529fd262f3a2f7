@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Rendimiento Por Grupo</title>
+	<link rel="stylesheet" th:href="@{/resources/css/normalize.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap-material-design.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/all.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/sweetalert2.min.css}">
+	<script th:src="@{/resources/js/sweetalert2.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/resources/css/jquery.mCustomScrollbar.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/style.css}">
+
+
+</head>
+
+
+<body>
+	<main class="full-box main-container">
+		<section class="full-box nav-lateral">
+			<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div class="full-box nav-lateral-content">
+				<figure class="full-box nav-lateral-avatar">
+					<i class="far fa-times-circle show-nav-lateral"></i>
+					<img src="/resources/assets/img/icon-user.jpg" class="img-fluid" alt="Avatar">
+					<figcaption class="roboto-medium text-center" th:text="${session.nombreUsuario}">
+					</figcaption>
+					<figcaption class="roboto-medium text-center" th:text="${session.nombreRolUsuario}">
+					</figcaption>
+				</figure>
+				<div class="full-box nav-lateral-bar"></div>
+				<nav class="full-box nav-lateral-menu">
+					<ul>
+						<li>
+							<a th:href="@{/admin/home}"><i class="fa fa-home fa-fw"></i> &nbsp; Inicio</a>
+						</li>
+						<li>
+							<a href="#" class="nav-btn-submenu"><i class="fa fa-user-secret fa-fw"></i> &nbsp; Jefes de
+								área<i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a th:href="@{/admin/registro}"><i class="fas fa-plus fa-fw"></i> &nbsp; Agregar
+										Jefe de Prestamistas</a>
+								</li>
+								<li>
+									<a th:href="@{/admin/lista}"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp;
+										Lista de Jefes</a>
+								</li>
+								<!--
+								<li>
+									<a id="btnBuscarPrestamista" href="#"><i class="fas fa-search fa-fw"></i> &nbsp; Buscar
+										Prestamista</a>
+								</li>
+								-->
+							</ul>
+						</li>
+						<li>
+							<a th:href="@{/admin/rendimiento}"><i class="fas fa-file-invoice-dollar fa-fw"></i> &nbsp; Estados Financieros</a>
+						</li>
+<!--
+						<li>
+
+							<a href="#" class="nav-btn-submenu"><i class="fa fa-address-card fa-fw"></i> &nbsp;
+								Prestamistas <i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a href="#"><i class="fas fa-plus fa-fw"></i> &nbsp; Agregar
+										Prestamista</a>
+								</li>
+								<li>
+									<a href="#"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp;
+										Lista de Prestamistas</a>
+								</li>
+							</ul>
+						</li>
+-->
+					</ul>
+				</nav>
+			</div>
+		</section>
+		<section class="full-box page-content">
+			<nav class="full-box navbar-info">
+				<a href="#" class="float-left show-nav-lateral">
+					<i class="fas fa-exchange-alt"></i>
+				</a>
+				<a href="">
+					<i class="fas fa-user-cog"></i>
+				</a>
+				<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
+				</a>
+			</nav>
+
+			<div class="full-box page-header">
+				<h3 class="text-left">
+					<i class="fas fa-clipboard-list fa-fw"></i> &nbsp; RENDIMIENTO DE PRESTAMOS
+				</h3>
+				<p class="text-justify">
+					Listado de los prestamos por prestamista, mostrando el rendimiento de todos sus prestamos
+				</p>
+			</div>
+<!--
+			<div class="container-fluid">
+				<ul class="full-box list-unstyled page-nav-tabs">
+					<li>
+						<a class="active" th:href="@{/prestamista/lista}"><i class="fas fa-clipboard-list fa-fw"></i>
+							&nbsp; LISTA DE SOLICITUDES</a>
+					</li>
+					<li>
+						<a th:href="@{/prestamista/listaCuotas}"><i class="fas fa-hand-holding-usd fa-fw"></i> &nbsp;
+							REGISTRO DE PAGOS DE PRESTAMOS</a>
+					</li>
+				</ul>
+			</div>
+-->
+			<div class="container-fluid">
+				<form class="form-neon" action="">
+					<div class="container-fluid">
+						<div class="row justify-content-md-center">
+
+							<div class="col-12 col-md-5">
+								<div class="form-group">
+									<label for="cboGrupo">Grupo</label>
+									<select id="cboGrupo" class="form-control" name="cboGrupo">
+										<option value="" selected="" disabled="">Seleccione una opción</option>
+										<option th:each="row:${grupo}" th:value="${row.cod_grupo}"
+											th:text="${row.descripcion}" />
+										</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="col-12 col-md-5">
+								<div class="form-group">
+									<label for="cboPrestamistas">Prestamista</label>
+									<select id="cboPrestamistas" class="form-control" name="cboPrestamistas">
+										<option value="">Seleccione un Prestamista</option>
+										<option th:each="row:${prestamista}" th:value="${row.codigoUsuario}"
+										th:text="${row.nombreUsuario }" />
+										</option>
+									</select>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="content">
+							<table class="table table-dark table-sm" id="tablaPrestamo">
+								<thead>
+									<tr class="text-center roboto-medium">
+										<th style="width: 5%">Código</th>
+										<th style="width: 7%">Fecha Registro</th>
+										<th style="width: 7%">Monto</th>
+										<th style="width: 7%">Cuotas</th>
+										<th style="width: 7%">Cuotas Pagadas</th>
+										<th style="width: 7%">Monto Pagado</th>
+										<th style="width: 7%">Interes</th>
+										<th style="width: 7%"></th>
+										<th style="width: 7%">Rendimiento</th>
+
+									</tr>
+								</thead>
+								<tbody class="text-center">
+									<tr class="text-center">
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>										
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+		</section>
+
+
+
+	</main>
+
+	<script th:src="@{/resources/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/resources/js/popper.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+	<script th:src="@{/resources/js/jquery.mCustomScrollbar.concat.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap-material-design.min.js}"></script>
+	<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+	<script>$(document).ready(function () {$('body').bootstrapMaterialDesign();});</script>
+	<script th:src="@{/resources/js/main.js}"></script>
+
+
+	<script>
+		$(document).on("change", "#cboGrupo", function () {
+			//variable
+			let cod;
+			cod = $(this).val();
+			//limpiar combo de tipo
+			$("#cboPrestamistas").empty().append("<option>Seleccione un Prestamista</option>")
+			$.get("/admin/listarPorGrupo?codigo=" + cod, function (response) {
+				//bucle
+				$.each(response, function (index, item) {
+					$("#cboPrestamistas").append("<option value='" + item.codigoUsuario + "'>" + item.nombreUsuario + "</option>");
+				})
+
+			})
+		})
+	</script>
+	
+<script>
+	$(document).on("change", "#cboPrestamistas", function () {
+		// variables para mantener la suma
+		let totalMontoSolicitud = 0;
+		let totalMora = 0;
+		let totalInteres = 0;
+		let sumaa = 0;
+		let rendimiento = 0;
+
+		let cod = $(this).val();
+		// limpiar combo de tipo
+		$.get("/admin/prestamosPorPrestamistas?cboPrestamistas=" + cod, function (response) {
+
+			// Limpiar la tabla antes de agregar nuevas filas
+			$("#tablaPrestamo tbody").empty();
+
+			$.each(response, function (index, item) {
+				// sumar al total
+				totalMontoSolicitud += item.solicitud.montoSolicitud;
+				totalMora += item.mora;
+				totalInteres += item.solicitud.interes;
+
+				$("#tablaPrestamo tbody").append(
+					"<tr><td>" + item.codigoPrestamo + "</td><td>" + item.fechaRegistroPrestamo +
+					"</td><td>" + item.solicitud.montoSolicitud + "</td><td>"
+					+ item.cantidadCuotas + "</td>" + "</td><td>"
+					+ item.cuotasPagadas + "</td>" + "</td><td>"
+					+ item.pagado + "</td>" + "</td><td>"
+					+ item.solicitud.interes + "</td>" + "</td><td>"
+					+ item.mora + "</td>" /*+ botonRegistrar*/ + "</tr>");
+			});			
+			// calcular la suma de mora e interes
+			sumaa = totalMora + totalInteres;
+			// calcular el rendimiento en porcentaje
+			rendimiento = (sumaa / totalMontoSolicitud) * 100;
+			// redondear el rendimiento a dos decimales
+			rendimiento = rendimiento.toFixed(2);
+			
+		
+		});
+	});
+</script>
+	
+</body>
+
+</html>

@@ -1,0 +1,223 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Login</title>
+	<link rel="stylesheet" th:href="@{/resources/css/normalize.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap-material-design.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/all.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/sweetalert2.min.css}">
+	<script th:src="@{/resources/js/sweetalert2.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/resources/css/jquery.mCustomScrollbar.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/style.css}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+</head>
+
+<body>
+	<div class="login-container">
+		<div class="login-content">
+			<p class="text-center">
+				<i class="fas fa-user-circle fa-5x"></i>
+			</p>
+			<p class="text-center">
+				Inicia sesión con tu cuenta
+			</p>
+			<form method="post" action="">
+				<div>
+					<div class="alert alert-danger credencialesInvalidas" style="display: none;">Usuario o contraseña
+						inválidos</div>
+				</div>
+
+				<!--	<div>
+					<div class="alert alert-info">Ha cerrado sesión exitosamente
+					</div>
+				</div>
+-->
+				<div class="form-group">
+					<label for="UserName" class="bmd-label-floating"><i class="fas fa-user-secret"></i> &nbsp;
+						Usuario</label>
+					<input type="text" class="form-control" id="user" name="user" maxlength="35">
+				</div>
+				<div class="form-group">
+					<label for="UserPassword" class="bmd-label-floating"><i class="fas fa-key"></i> &nbsp;
+						Contraseña</label>
+					<input type="password" class="form-control" id="pass" name="pass" maxlength="200">
+				</div>
+				<button type="button" class="btn-login text-center">INICIAR SESION</button>
+				<br>
+				<p class="text-center">
+					¿No tienes cuenta? <a data-toggle="modal" data-target="#modalRegistro" href="#"><i
+							class="fa-fw"></i>Registrate</a>
+				</p>
+			</form>
+
+			<form id="formLogin" method="post" th:action="@{/usuario/log}">
+				<input type="hidden" class="form-control" id="UserName" name="username" maxlength="35">
+				<input type="hidden" class="form-control" id="UserPassword" name="password" maxlength="200">
+			</form>
+		</div>
+
+		<div class="modal fade" id="modalRegistro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-login modal-lg">
+				<div class="modal-content">
+					<div class="modal-header bg-blue-darker">
+					</div>
+					<div class="container-fluid">
+						<form method="post" action="/prestatario/nuevaCuenta" class="form-neon" autocomplete="off">
+							<fieldset>
+								<legend><i class="fas fa-user"></i> &nbsp; Registrar Prestatario</legend>
+								<div class="container-fluid">
+									<div class="row">
+										<div class="col-12 col-md-4">
+											<div class="form-group">
+												<label for="prestatario_nombre"
+													class="bmd-label-floating">Nombres</label>
+												<input name="nombreUsuario" type="text"
+													pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control"
+													id="prestatario_nombre" required maxlength="40">
+											</div>
+										</div>
+										<div class="col-12 col-md-4">
+											<div class="form-group">
+												<label for="prestatario_apellido"
+													class="bmd-label-floating">Apellidos</label>
+												<input name="apellidoUsuario" type="text"
+													pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control"
+													id="prestatario_apellido" required maxlength="40">
+											</div>
+										</div>
+										<div class="col-12 col-md-4">
+											<div class="form-group">
+												<label for="prestatario_dni" class="bmd-label-floating">DNI</label>
+												<input name="dniUsuario" type="text" pattern="^(?!0+$)[0-9]{1,8}"
+													class="form-control" id="prestatario_dni" required minlength="8"
+													maxlength="8">
+											</div>
+										</div>
+										<div class="col-12 col-md-4">
+											<div class="form-group">
+    <label for="prestatario_fechanac">Fecha de Nacimiento</label>
+    <input name="fechaNacimientoUsuario" type="date" class="form-control" id="prestatario_fechanac" required maxlength="150" onchange="validarEdad()">
+</div>
+										</div>
+										<div class="col-12 col-md-4">
+												<div class="form-group">
+											    <label for="prestatario_email" class="bmd-label-floating">E-Mail</label>
+											    <input name="login" type="email" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+											           class="form-control" id="prestatario_email" required maxlength="150">
+											</div>
+
+										</div>
+										<div class="col-12 col-md-4">
+											<div class="form-group">
+												<label for="prestatario_password"
+													class="bmd-label-floating">Contraseña</label>
+												<input type="password"
+													class="form-control" name="clave"
+													id="prestatario_password" required minlength="3" maxlength="40">
+											</div>
+										</div>
+										<div class="col-12 col-md-4">
+											<div class="form-group">
+												<label for="prestatario_telefono"
+													class="bmd-label-floating">Teléfono</label>
+												<input name="telefonoUsuario" type="text" pattern="[0-9]{1,9}"
+													class="form-control" id="prestatario_telefono" required minlength="9"
+													maxlength="9">
+											</div>
+										</div>
+										<div class="col-12 col-md-4">
+											<div class="form-group">
+												<label for="prestatario_grupo" class="bmd-label-floating">Grupo</label>
+												<select class="form-control" name="codigoGrupo"
+													id="prestatario_grupo">
+													<option value=" ">[Seleccione Grupo]</option>
+										<option th:each="row:${grupo}" th:value="${row.cod_grupo}"
+											th:text="${row.descripcion}" required />													
+
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+							<p class="text-center" style="margin-top: 40px;">
+								<button data-dismiss="modal" type="reset" class="btn btn-raised btn-danger btn-sm"><i
+										class="fas fa-undo-alt"></i>
+									&nbsp; CANCELAR</button>
+								&nbsp; &nbsp;
+								<button type="submit"><i class="far fa-save"></i> &nbsp; REGISTRAR</button>
+							</p>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<video autoplay loop muted>
+			<source src="/resources/assets/img/money.mp4">
+		</video>
+	</div>
+
+	<script th:src="@{/resources/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/resources/js/popper.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+	<script th:src="@{/resources/js/jquery.mCustomScrollbar.concat.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap-material-design.min.js}"></script>
+	<script	src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script>$(document).ready(function () {$('body').bootstrapMaterialDesign();});</script>
+	<script th:src="@{/resources/js/main.js}"></script>
+	
+	<script  th:inline="javascript" th:if="${MENSAJE!=null}">
+		//recuperar atributo "MENSAJE"
+		let msg=/*[[${MENSAJE}]]*/
+		
+		toastr.success(msg, toastr.options = {
+			"timeOut": "2000",
+			"positionClass " : " toast-top-right ",
+		});
+	</script>
+
+	<script>
+		$(document).on("click", ".btn-login", function () {
+			let use;
+			let pas;
+			use = $("#user").val();
+			pas = $("#pass").val();
+			$.get("/usuario/buscar?username=" + use + "&password=" + pas, function (data, status) {
+				if (status === "success") {
+					// Procesa la respuesta del servidor (data) según lo que necesites hacer
+					if (data === "Registro encontrado") {
+						$("#UserName").val(use);
+						$("#UserPassword").val(pas);
+						$("#formLogin").submit();
+					} else {
+						$(".credencialesInvalidas").show();
+					}
+				}
+			})
+		})
+	</script>
+	
+	<script>
+    function validarEdad() {
+        var fechaNacimiento = new Date(document.getElementById("prestatario_fechanac").value);
+        var fechaHoy = new Date();
+        var edad = fechaHoy.getFullYear() - fechaNacimiento.getFullYear();
+
+        // Verificar si ya cumplió 18 años
+        if (edad < 18) {
+            alert("Debes ser mayor de 18 años para continuar.");
+            document.getElementById("prestatario_fechanac").value = ""; // Limpiar el campo
+        }
+    }
+</script>
+	
+	
+	
+</body>
+
+</html>

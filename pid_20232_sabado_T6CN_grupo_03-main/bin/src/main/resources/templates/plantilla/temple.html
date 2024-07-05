@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Home</title>
+	<link rel="stylesheet" th:href="@{/resources/css/normalize.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap-material-design.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/all.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/sweetalert2.min.css}">
+	<script th:src="@{/resources/js/sweetalert2.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/resources/css/jquery.mCustomScrollbar.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/style.css}">
+
+</head>
+
+<body>
+
+	<div th:fragment="cabecera">
+
+		<section class="full-box nav-lateral">
+			<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div class="full-box nav-lateral-content">
+				<figure class="full-box nav-lateral-avatar">
+					<i class="far fa-times-circle show-nav-lateral"></i>
+					<img src="/resources/assets/img/icon-user.jpg" class="img-fluid" alt="Avatar">
+					<span class="text-white">Usuario: </span><span class="text-white" th:text="${session.nombre}"></span>
+
+					<figcaption th:text="${session.nombre}" class="roboto-medium text-center">
+						<br><small class="roboto-condensed-light">Admin</small>
+					</figcaption>
+				</figure>
+				<div class="full-box nav-lateral-bar"></div>
+				<nav class="full-box nav-lateral-menu">
+					<ul>
+						<li>
+							<a th:href="@{/usuario/home}"><i class="fa fa-home fa-fw"></i> &nbsp; Inicio</a>
+						</li>
+
+						<li>
+							<a href="#" class="nav-btn-submenu"><i class="fa fa-address-card fa-fw"></i> &nbsp;
+								Prestamistas <i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a th:href="@{/jefe/registro}"><i class="fas fa-plus fa-fw"></i> &nbsp; Agregar
+										Prestamista</a>
+								</li>
+								<li>
+									<a th:href="@{/jefe/lista}"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista
+										de Prestamistas</a>
+								</li>
+								<li>
+									<a href="prestamistabuscar.html"><i class="fas fa-search fa-fw"></i> &nbsp; Buscar
+										Prestamista</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</section>
+	</div>
+
+	<script th:src="@{/resources/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/resources/js/popper.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+	<script th:src="@{/resources/js/jquery.mCustomScrollbar.concat.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap-material-design.min.js}"></script>
+	<script>$(document).ready(function () {$('body').bootstrapMaterialDesign();});</script>
+	<script th:src="@{/resources/js/main.js}"></script>
+
+</body>
+
+</html>

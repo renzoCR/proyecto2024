@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Registrar Pagos de Prestamos</title>
+	<link rel="stylesheet" th:href="@{/resources/css/normalize.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap-material-design.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/all.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/sweetalert2.min.css}">
+	<script th:src="@{/resources/js/sweetalert2.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/resources/css/jquery.mCustomScrollbar.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/style.css}">
+
+</head>
+
+<body>
+	<main class="full-box main-container">
+		<section class="full-box nav-lateral">
+			<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div class="full-box nav-lateral-content">
+				<figure class="full-box nav-lateral-avatar">
+					<i class="far fa-times-circle show-nav-lateral"></i>
+					<img src="/resources/assets/img/icon-user.jpg" class="img-fluid" alt="Avatar">
+					<figcaption class="roboto-medium text-center" th:text="${session.nombreUsuario}">
+					</figcaption>
+					<figcaption class="roboto-medium text-center" th:text="${session.nombreRolUsuario}">
+					</figcaption>
+				</figure>
+				<div class="full-box nav-lateral-bar"></div>
+				<nav class="full-box nav-lateral-menu">
+					<ul>
+						<li>
+							<a href="homeprestamista.html"><i class="fa fa-home fa-fw"></i> &nbsp; Inicio</a>
+						</li>
+
+						<li>
+							<a href="#" class="nav-btn-submenu"><i class="fa fa-envelope fa-fw"></i> &nbsp;
+								Solicitudes<i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a href="solicitudlistaprestamista.html"><i
+											class="fas fa-file-invoice-dollar fa-fw"></i> &nbsp; Lista de
+										Solicitudes</a>
+								</li>
+								<li>
+									<a href="registrarpagoprestamista.html"><i class="fa fa-book fa-fw"></i> &nbsp;
+										Registro de Pagos de Prestamos</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</section>
+		<section class="full-box page-content">
+			<nav class="full-box navbar-info">
+				<a href="#" class="float-left show-nav-lateral">
+					<i class="fas fa-exchange-alt"></i>
+				</a>
+				<a href="user-update.html">
+					<i class="fas fa-user-cog"></i>
+				</a>
+				<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
+				</a>
+			</nav>
+
+			<div class="full-box page-header">
+				<h3 class="text-left">
+					<i class="fas fa-hand-holding-usd fa-fw"></i> &nbsp; REGISTRO DE PAGOS DE PRESTAMOS
+				</h3>
+				<p class="text-justify">
+					Registra los pagos cancelados por los clientes / prestatarios
+				</p>
+			</div>
+			<div class="container-fluid">
+				<ul class="full-box list-unstyled page-nav-tabs">
+					<li>
+						<a href="solicitudlistaprestamista.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp;
+							LISTA DE SOLICITUDES</a>
+					</li>
+					<li>
+						<a class="active" href="registrarpagoprestamista.html"><i
+								class="fas fa-hand-holding-usd fa-fw"></i> &nbsp; REGISTRO DE PAGOS DE PRESTAMOS</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="container-fluid">
+				<form class="form-neon" action="">
+					<div class="container-fluid">
+						<div class="row justify-content-md-center">
+
+							<!--<div class="col-12 col-md-5">
+								<p class="text-center" style="margin-top: 30px;">
+									<button type="submit" class="btn btn-raised btn-info"><i class="fas fa-search"></i> &nbsp; BUSCAR</button>
+								</p>
+							</div> -->
+							<div class="col-12 col-md-4">
+								<div class="form-group">
+									<label for="inputSearchInicio">Fecha (Desde)</label>
+									<input type="date" class="form-control" name="busqueda_reservation_inicio"
+										id="inputSearchInicio" maxlength="150">
+								</div>
+							</div>
+							<div class="col-12 col-md-4">
+								<div class="form-group">
+									<label for="inputSearchFinal">Fecha (Hasta)</label>
+									<input type="date" class="form-control" name="busqueda_reservation_final"
+										id="inputSearchFinal" maxlength="150">
+								</div>
+							</div>
+
+							<div class="col-12 col-md-5">
+								<div class="form-group">
+									<label for="prestamista_lista">Prestamista</label>
+									<select id="cboPrestatario" class="form-control" name="prestamista_lista">
+										<option value="" selected="" disabled="">Seleccione una opción</option>
+										<option th:each="row:${prestatarios}" th:value="${row.codigoUsuario}"
+											th:text="${row.nombreUsuario}" />
+										</option>
+									</select>
+								</div>
+							</div>
+							<!--	<div class="col-12 col-md-3">
+								<p class="text-center" style="margin-top: 30px;">
+									<button type="submit" class="btn btn-raised btn-info"><i class="fas fa-search"></i> &nbsp; BUSCAR</button>
+								</p>
+							</div> -->
+						</div>
+					</div>
+				</form>
+			</div>
+
+
+			<div class="container-fluid">
+				<div class="table-responsive">
+					<table id="tableMaterial" class="table table-dark table-sm">
+						<thead>
+							<tr class="text-center roboto-medium">
+								<th>CODIGO</th>
+								<th>PRESTAMOS</th>
+								<th>PRESTATARIO</th>
+								<th>MONTO</th>
+								<th>CUOTA</th>								
+								<th>DEUDA</th>					
+								<th>FECHA DE VENCIMIENTO</th>
+								<th>REGISTRAR</th>
+							</tr>
+						</thead>
+						<tbody class="text-center">
+							<tr class="text-center">
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<!--	<td>
+									<a data-toggle="modal" data-target="#modalPago" href="" class="btn btn-info p-0">
+	  									<i class="fa fa-check"></i>	
+									</a>
+								</td> -->
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="modal fade" id="modalPago" tabindex="-1" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-login modal-lg">
+						<div class="modal-content">
+							<div class="modal-header bg-blue-darker">
+								<h4 class="modal-title text-dark">REGISTRO DE PAGO</h4>
+							</div>
+							<div class="container-fluid">
+								<form method="post" th:action="@{/prestamista/actualizarDato}" class="form-neon" autocomplete="off">
+									<input type="hidden" id="" name="">
+									<input type="hidden" id="" name="">
+
+									<fieldset>
+										<legend><i class="fa fa-balance-scale"></i> &nbsp; Pago de cuota</legend>
+										<input hidden name="monto_cuota" type="text" id="monto_cuota">										
+										<input hidden name="codigoCuota" type="text" id="codigoCuota">
+										<div class="container-fluid">
+											<div class="row">
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<label for="pago_prestamo">Prestamo</label>
+														<input readonly name="pagoPrestamo" type="text"
+															pattern="[0-9]{1,9}" class="form-control" id="pago_prestamo"
+															required minlength="8" maxlength="8">
+													</div>
+												</div>
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<label for="pago_prestatario">Prestatario</label>
+														<input readonly name="pagoPrestatario" type="text"
+															pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control"
+															id="pago_prestatario" required maxlength="40">
+													</div>
+												</div>
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<label for="pago_cuota">Cuota</label>
+														<input readonly name="pagoCuota" type="text"
+															pattern="[0-9]{1,9}" class="form-control" id="pago_cuota"
+															required maxlength="40">
+													</div>
+												</div>
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<label for="pago_monto">Monto</label>
+														<input readonly name="pagoMonto" type="text"
+															pattern="[0-9]{1,9}" class="form-control" id="pago_monto"
+															required maxlength="9">
+													</div>
+												</div>
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<label for="mora">Mora</label>
+														<input readonly name="mora" type="text" pattern="[0-9]{1,9}"
+															class="form-control" id="mora" required maxlength="9">
+													</div>
+												</div>
+
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<label for="estado">Estado</label>
+														<input readonly name="estado" type="text" pattern="[0-9]{1,9}"
+															class="form-control" id="estado" required maxlength="9">
+													</div>
+												</div>
+
+											</div>
+											<div class="col-12 col-md-4">
+												<div class="form-group">
+													<label for="pago_fechvenc">Fecha de Vencimiento</label>
+													<input readonly name="pagoFechVenc" type="date" class="form-control"
+														id="pago_fechvenc" required maxlength="150">
+												</div>
+											</div>
+											<div class="col-12 col-md-4">
+												<div class="form-group">
+													<label for="pago_montopagar">Monto a Pagar</label>
+													<input name="pagoMontoPagar" type="text" 
+														class="form-control" id="pago_montopagar" required
+														maxlength="150">
+												</div>
+											</div>
+										</div>
+							</div>
+							</fieldset>
+							<br><br><br>
+							<p class="text-center" style="margin-top: 40px;">
+								<button data-dismiss="modal" type="reset" class="btn btn-raised btn-danger btn-sm"><i
+										class="fas fa-undo-alt"></i>
+									&nbsp; CANCELAR</button>
+								&nbsp; &nbsp;
+								<button type="submit"><i class="far fa-save"></i> &nbsp; PAGAR</button>
+							</p>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			<!--	<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+						<li class="page-item disabled">
+							<a class="page-link" href="#" tabindex="-1">Previous</a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item">
+							<a class="page-link" href="#">Next</a>
+						</li>
+					</ul>
+				</nav> -->
+			</div>
+		</section>
+	</main>
+
+
+	<script th:src="@{/resources/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/resources/js/popper.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+	<script th:src="@{/resources/js/jquery.mCustomScrollbar.concat.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap-material-design.min.js}"></script>
+	<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+	<script>$(document).ready(function () {$('body').bootstrapMaterialDesign();});</script>
+	<script th:src="@{/resources/js/main.js}"></script>
+
+	<!--	<script>
+		$(document).on("change", "#cboPrestatario", function () {
+
+		/*	let aerolinea = $("#aer").val();
+			let servicio = $("#ser").val();
+
+
+			let celdaYbotonActualizar = `<td class="tamaño_celda" style="text-align: center;"><button class="btn btn-warning btn-actualizar" data-toggle="modal" data-target="#modalRegistroMaterial"><i
+									class="bi bi-pencil"></i></button></td>`;
+			let celdaYbotonEliminar = `<td class="tamaño_celda" style="text-align: center;"><button
+								class="btn btn-danger btn-eliminar"><i class="bi bi-trash"></i></button></td>`;
+								*/
+			//reorganizar tabla
+			$("#tableMaterial tbody").empty();
+			
+		})
+	</script>
+	-->
+	<script>
+		$(document).on("click", ".btn-info", function () {
+			let cod;
+
+			//obtener los datos de la cuota
+			cod = $(this).parents("tr").find("td")[0].innerHTML;
+			$.get("/prestamista/buscarCuotas?codigo=" + cod, function (response) {
+				$("#codigoCuota").val(response.codigoCuota);				
+				$("#pago_prestamo").val(response.prestamo.codigoPrestamo);
+				$("#pago_prestatario").val(response.usuario.nombreUsuario);
+				$("#pago_cuota").val(response.numeroCuota);
+				$("#pago_monto").val(response.deuda);
+				$("#pago_fechvenc").val(response.fechaFinCuota);
+				$("#monto_cuota").val(response.montoCuota);
+				$("#estado").val(response.estado);
+
+				//logica para el calculo de mora
+
+				const fechaLocal = new Date();
+				const año = fechaLocal.getFullYear();
+				const mes = (fechaLocal.getMonth() + 1).toString().padStart(2, '0');
+				const dia = fechaLocal.getDate().toString().padStart(2, '0');
+				const fechaFormateada = `${año}-${mes}-${dia}`;
+				var fechaVen = $("#pago_fechvenc").val()
+
+				const date1 = new Date(fechaFormateada);
+				const date2 = new Date(fechaVen);
+				const diferenciaEnMilisegundos = date1 - date2;
+
+				// Convierte la diferencia a días
+				const diferenciaEnDias = diferenciaEnMilisegundos / (1000 * 60 * 60 * 24);
+
+				const monto = $("#monto_cuota").val()
+
+				if (diferenciaEnDias <= 0) {
+					$("#mora").val("0.00");
+				} else if (diferenciaEnDias > 0) {
+					const resultadoPotencia = Math.pow(1.006096, diferenciaEnDias);
+					const resultadoResta = resultadoPotencia - 1;
+					const mora = resultadoResta * monto;
+					const moraFinal = mora.toFixed(3);
+
+					$("#mora").val(moraFinal);
+				}
+			})
+		})
+	</script>
+
+	<script>
+		// Espera a que el documento esté completamente cargado
+		$(document).ready(function () {
+			// Selecciona el combo por su ID y agrega un evento de cambio
+			$("#cboPrestatario").change(function () {
+				let cbo = $("#cboPrestatario").val();
+				let f1 = $("#inputSearchInicio").val();
+				let f2 = $("#inputSearchFinal").val();
+				let botonRegistrar = `<td>
+									<a data-toggle="modal" data-target="#modalPago" href="" class="btn btn-info p-0">
+	  									<i class="fa fa-check"></i>	
+									</a>
+								</td>`;
+				$("#tableMaterial tbody").empty();
+				$("#tableMaterial tbody").empty();
+				$.get("/prestamista/obtenerCuotasPorUsuario?cod=" + cbo + "&fecha1=" + f1 + "&fecha2=" + f2, function (response) {
+					//bucle
+					$.each(response, function (index, item) {
+						$("#tableMaterial tbody").append(
+							"<tr><td>" + item.codigoCuota + "</td><td>" + item.prestamo.codigoPrestamo +
+							"</td><td>" + item.usuario.nombreUsuario + "</td><td>"
+							+ item.montoCuota + "</td>" + "</td><td>"
+							+ item.numeroCuota + "</td>" + "</td><td>"
+							+ item.deuda + "</td>" + "</td><td>"								
+							+ item.fechaFinCuota + "</td>" + botonRegistrar + "</tr>");
+					})
+
+				})
+
+			});
+		});
+	</script>
+
+</body>
+
+</html>

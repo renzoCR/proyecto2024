@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Información de la solicitud</title>
+    <link rel="stylesheet" th:href="@{/resources/css/normalize.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap-material-design.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/all.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/sweetalert2.min.css}">
+	<script th:src="@{/resources/js/sweetalert2.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/resources/css/jquery.mCustomScrollbar.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/style.css}">
+</head>
+
+
+<body>
+    <main class="full-box main-container">
+        <section class="full-box nav-lateral">
+            <div class="full-box nav-lateral-bg show-nav-lateral"></div>
+            <div class="full-box nav-lateral-content">
+                <figure class="full-box nav-lateral-avatar">
+                    <i class="far fa-times-circle show-nav-lateral"></i>
+					<img src="./assets/img/icon-user.jpg" class="img-fluid" alt="Avatar">
+					<figcaption class="roboto-medium text-center">
+						Nombre Apellido <br><small class="roboto-condensed-light">Admin</small>
+					</figcaption>
+                </figure>
+                <div class="full-box nav-lateral-bar"></div>
+                <nav class="full-box nav-lateral-menu">
+					<ul>
+						<li>
+							<a href="homeprestamista.html"><i class="fa fa-home fa-fw"></i> &nbsp; Inicio</a>
+						</li>
+
+						<li>
+							<a href="#" class="nav-btn-submenu"><i class="fa fa-envelope fa-fw"></i> &nbsp; Solicitudes<i class="fas fa-chevron-down"></i></a>
+							<ul>
+                                <li>
+									<a href="solicitudlistaprestamista.html"><i class="fas fa-file-invoice-dollar fa-fw"></i> &nbsp; Lista de Solicitudes</a>
+								</li>
+								<li>
+									<a href="solicitudbuscarprestamista.html"><i class="fas fa-search fa-fw"></i> &nbsp; Buscar Solicitudes</a>
+								</li>
+								<li>
+									<a href="solicitudhistorialprestamista.html"><i class="fa fa-book fa-fw"></i> &nbsp; Historial de Solicitudes</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+            </div>
+        </section>
+        <section class="full-box page-content">
+            <nav class="full-box navbar-info">
+                <a href="#" class="float-left show-nav-lateral">
+                    <i class="fas fa-exchange-alt"></i>
+                </a>
+                <a href="user-update.html">
+                    <i class="fas fa-user-cog"></i>
+                </a>
+                <a href="#" class="btn-exit-system">
+                    <i class="fas fa-power-off"></i>
+                </a>
+            </nav>
+            
+            <div class="full-box page-header">
+                <h3 class="text-left">
+                    <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; INFORMACÓN DE LA SOLICITUD
+                </h3>
+                <p class="text-justify">
+                    Detalles sobre la solicitud de prestamo del cliente.
+                </p>
+            </div>
+
+            
+            <div class="container-fluid">
+                <form action="" class="form-neon" autocomplete="off">
+                    <fieldset>
+                        <legend><i class="fas fa-file-invoice-dollar fa-fw"></i> &nbsp; SOLICITUD DE PRESTAMO:</legend>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <legend><i class="fa fa-arrow-circle-right fa-fw"></i> &nbsp; Cliente: *datos del cliente*</legend>
+                                <legend><i class="fa fa-arrow-circle-right fa-fw"></i> &nbsp; Monto: *datos del monto*</legend>
+                                <legend><i class="fa fa-arrow-circle-right fa-fw"></i> &nbsp; Interes: *datos del interes*</legend>
+                                <legend><i class="fa fa-arrow-circle-right fa-fw"></i> &nbsp; Tasa: *datos de la tasa*</legend>
+                                <legend><i class="fa fa-arrow-circle-right fa-fw"></i> &nbsp; Dias: *datos de los dias* </legend>
+                                <legend><i class="fa fa-arrow-circle-right fa-fw"></i> &nbsp; Fecha Inicial: *datos de la fecha inicial*</legend>
+                                <legend><i class="fa fa-arrow-circle-right fa-fw"></i> &nbsp; Fecha Final: *datos de la fecha final*</legend>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <p class="text-center" style="margin-top: 40px;">
+                        <button type="submit" class="btn btn-raised btn-info btn-sm"><i class="fa fa-check"></i> &nbsp; ACEPTAR</button>
+                        &nbsp; &nbsp;
+                        <button type="reset" class="btn btn-raised btn-danger btn-sm"><i class="fa fa-times"></i> &nbsp; CANCELAR</button>
+                    </p>
+                </form>
+            </div>
+        </section>
+    </main>
+	
+	<script th:src="@{/resources/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/resources/js/popper.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+	<script th:src="@{/resources/js/jquery.mCustomScrollbar.concat.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap-material-design.min.js}"></script>
+	<script>$(document).ready(function () {$('body').bootstrapMaterialDesign();});</script>
+	<script th:src="@{/resources/js/main.js}"></script>
+
+
+</body></html>

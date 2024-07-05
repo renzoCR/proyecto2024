@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Actualizar cliente</title>
+	<link rel="stylesheet" th:href="@{/resources/css/normalize.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap-material-design.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/all.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/sweetalert2.min.css}">
+	<script th:src="@{/resources/js/sweetalert2.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/resources/css/jquery.mCustomScrollbar.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/style.css}">
+
+
+</head>
+<body>
+	
+	<main class="full-box main-container">
+		<section class="full-box nav-lateral">
+            <div class="full-box nav-lateral-bg show-nav-lateral"></div>
+            <div class="full-box nav-lateral-content">
+                <figure class="full-box nav-lateral-avatar">
+                    <i class="far fa-times-circle show-nav-lateral"></i>
+					<img src="./assets/img/icon-user.jpg" class="img-fluid" alt="Avatar">
+					<figcaption class="roboto-medium text-center">
+						Nombre Apellido <br><small class="roboto-condensed-light">Admin</small>
+					</figcaption>
+                </figure>
+                <div class="full-box nav-lateral-bar"></div>
+                <nav class="full-box nav-lateral-menu">
+					<ul>
+						<li>
+							<a href="homecliente.html"><i class="fa fa-home fa-fw"></i> &nbsp; Inicio</a>
+						</li>
+
+						<li>
+							<a href="#" class="nav-btn-submenu"><i class="fa fa-envelope fa-fw"></i> &nbsp; Solicitudes<i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a href="solicitudnuevacliente.html"><i class="fas fa-file-invoice-dollar fa-fw"></i> &nbsp; Nueva Solicitud</a>
+								</li><li>
+									<a href="solicitudpendientecliente.html"><i class="fa fa-hourglass fa-fw"></i> &nbsp; Solicitudes Pendientes</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+            </div>
+        </section>
+
+		<section class="full-box page-content">
+			<nav class="full-box navbar-info">
+				<a href="#" class="float-left show-nav-lateral">
+					<i class="fas fa-exchange-alt"></i>
+				</a>
+				<a href="jefeperfil.html">
+					<i class="fas fa-user-cog"></i>
+				</a>
+				<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
+				</a>
+			</nav>
+
+			<div class="full-box page-header">
+				<h3 class="text-left">
+					<i class="fas fa-sync-alt fa-fw"></i> &nbsp; ACTUALIZAR SOLICITUD
+				</h3>
+				<p class="text-justify">
+					Actualiza los datos de tu solicitud segun corresponda.
+				</p>
+			</div>
+
+			<div class="container-fluid">
+				<ul class="full-box list-unstyled page-nav-tabs">
+					<li>
+                        <a href="solicitudnuevacliente.html"><i class="fas fa-plus fa-fw"></i> &nbsp; NUEVA SOLICITUD</a>
+                    </li>
+                    <li>
+                        <a class="active" href="solicitudpendientecliente.html"><i class="fa fa-hourglass fa-fw"></i> &nbsp; SOLICITUDES PENDIENTES</a>
+                    </li>
+				</ul>	
+			</div>
+			
+			<div class="container-fluid">
+				<form action="" class="form-neon" autocomplete="off">
+					<fieldset>
+						<legend><i class="fas fa-user"></i> &nbsp; Información básica</legend>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="prestamo_monto" class="bmd-label-floating">Monto</label>
+										<input type="number" pattern="[0-9.]{1,10}" class="form-control"
+											name="prestamo_monto" id="prestamo_monto" maxlength="10">
+									</div>
+								</div>
+
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="prestamo_cuenta" class="bmd-label-floating">Nro de
+											Cuenta</label>
+										<input type="number" pattern="[0-9.]{1,20}" class="form-control"
+											name="prestamo_cuenta" id="prestamo_cuenta" maxlength="20">
+									</div>
+								</div>
+
+								<div class="col-12 col-md-4">
+									<div class="form-group">
+										<label for="prestamo_tasa" class="bmd-label-floating">Tasa</label>
+										<select class="form-control" name="prestamo_tasa" id="prestamo_tasa">
+											<option value="" selected="" disabled="">Seleccione una opción</option>
+											<option value="Diez">10%</option>
+											<option value="Quince">15%</option>
+											<option value="Veinte">20%</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="col-12 col-md-4">
+									<div class="form-group">
+										<label for="prestamo_fecha">Ingresa Fecha de Prestamo</label>
+										<input type="date" class="form-control" name="prestamo_fecha"
+											id="prestamo_fecha" maxlength="10">
+									</div>
+								</div>
+
+								<div class="col-12 col-md-4">
+									<div class="form-group">
+										<label for="prestamo_dias" class="bmd-label-floating">Tiempo de
+											prestamo</label>
+										<select class="form-control" name="prestamo_dias" id="prestamo_dias">
+											<option value="" selected="" disabled="">Seleccione una opción</option>
+											<option value="Seis">6 Meses</option>
+											<option value="Doce">12 Meses</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					<br><br><br>
+					<p class="text-center" style="margin-top: 40px;">
+						<button data-dismiss="modal" type="reset"
+							class="btn btn-raised btn-danger btn-sm"><i class="fas fa-undo-alt"></i>
+							&nbsp; CANCELAR</button>
+						&nbsp; &nbsp;
+						<button type="submit"><i class="far fa-save"></i> &nbsp; GUARDAR</button>
+					</p>
+				</form>
+			</div>	
+
+		</section>
+	</main>
+	
+	<script th:src="@{/resources/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/resources/js/popper.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+	<script th:src="@{/resources/js/jquery.mCustomScrollbar.concat.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap-material-design.min.js}"></script>
+	<script>$(document).ready(function () {$('body').bootstrapMaterialDesign();});</script>
+	<script th:src="@{/resources/js/main.js}"></script>
+</body>
+</html>

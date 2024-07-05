@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Buscar prestamista</title>
+	<link rel="stylesheet" th:href="@{/resources/css/normalize.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap-material-design.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/all.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/sweetalert2.min.css}">
+	<script th:src="@{/resources/js/sweetalert2.min.js}" ></script>
+	<link rel="stylesheet" th:href="@{/resources/css/jquery.mCustomScrollbar.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/style.css}">
+
+
+</head>
+<body>
+	
+	<main class="full-box main-container">
+		<section class="full-box nav-lateral">
+			<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div class="full-box nav-lateral-content">
+				<figure class="full-box nav-lateral-avatar">
+					<i class="far fa-times-circle show-nav-lateral"></i>
+					<img src="/resources/assets/img/icon-user.jpg" class="img-fluid" alt="Avatar">
+					<figcaption class="roboto-medium text-center">
+						Nombre Apellido <br><small class="roboto-condensed-light">Admin</small>
+					</figcaption>
+				</figure>
+				<div class="full-box nav-lateral-bar"></div>
+				<nav class="full-box nav-lateral-menu">
+					<ul>
+						<li>
+							<a th:href="@{/usuario/home}"><i class="fa fa-home fa-fw"></i> &nbsp; Inicio</a>
+						</li>
+
+						<!-- Dependiendo del rol  -->
+						<li sec:authorize="hasAuthority('Administrador')">
+							<a href="#" class="nav-btn-submenu"><i class="fa fa-user-secret fa-fw"></i> &nbsp; Jefes de
+								área<i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a th:href="@{/admin/registro}"><i class="fas fa-plus fa-fw"></i> &nbsp; Agregar Jefe Prestamista</a>
+								</li>
+								<li>
+									<a th:href="@{/admin/lista}"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista de Jefes de
+										área</a>
+								</li>
+								<li>
+									<a th:href="@{/admin/buscar}"><i class="fas fa-search fa-fw"></i> &nbsp; Buscar Jefe de área</a>
+								</li>
+							</ul>
+						</li>
+
+							<li sec:authorize="hasAnyAuthority('Administrador', 'Jefe de Prestamistas')">
+							<a href="#" class="nav-btn-submenu"><i class="fa fa-address-card fa-fw"></i> &nbsp;
+								Prestamistas <i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a th:href="@{/jefe/registro}" ><i class="fas fa-plus fa-fw"></i> &nbsp; Agregar
+										Prestamista</a>
+								</li>
+								<li>
+									<a th:href="@{/jefe/lista}" href="#"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp;
+										Lista de Prestamistas</a>
+								</li>
+								<li>
+									<a id="btnBuscarPrestamista" href="#"><i class="fas fa-search fa-fw"></i> &nbsp; Buscar
+										Prestamista</a>
+								</li>
+							</ul>
+						</li>
+
+						<!--
+						<li sec:authorize="hasAnyAuthority('Prestamista','Administrador')">
+							<a href="#" class="nav-btn-submenu"><i class="fa fa-user fa-fw"></i> &nbsp; Clientes <i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a href=""><i class="fas fa-plus fa-fw"></i> &nbsp; Nuevo Cliente</a>
+								</li>
+								<li>
+									<a href=""><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista de Clientes</a>
+								</li>
+								<li>
+									<a href=""><i class="fas fa-search-dollar fa-fw"></i> &nbsp; Buscar Cliente</a>
+								</li>
+							</ul>
+						</li>
+						-->
+
+						<li sec:authorize="hasAnyAuthority('Prestamista')">
+							<a href="#" class="nav-btn-submenu"><i class="fa fa-envelope fa-fw"></i> &nbsp; Solicitudes
+								<i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a th:href="@{/prestamista/lista}"><i class="fas fa-search fa-fw"></i> &nbsp; Ver Solicitudes</a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-book fa-fw"></i> &nbsp; Historial de Solicitudes</a>
+								</li>
+
+							</ul>
+						</li>
+
+						<li sec:authorize="hasAuthority('Administrador')">
+							<a href="#" class="nav-btn-submenu"><i class="fas fa-users fa-fw"></i> &nbsp; Grupos <i
+									class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a href=""><i class="fas fa-plus fa-fw"></i> &nbsp; Nuevo Grupo</a>
+								</li>
+								<li>
+									<a href=""><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista de Grupos</a>
+								</li>
+								<li>
+									<a href=""><i class="fas fa-search fa-fw"></i> &nbsp; Buscar Grupo</a>
+								</li>
+							</ul>
+						</li>
+
+						<li sec:authorize="hasAuthority('Administrador')">
+							<a href=""><i class="fas fa-file-invoice-dollar fa-fw"></i> &nbsp; Estados Financieros</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</section>
+
+		<section class="full-box page-content">
+			<nav class="full-box navbar-info">
+				<a href="#" class="float-left show-nav-lateral">
+					<i class="fas fa-exchange-alt"></i>
+				</a>
+				<a href="jefeperfil.html">
+					<i class="fas fa-user-cog"></i>
+				</a>
+				<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
+				</a>
+			</nav>
+
+			<div class="full-box page-header">
+				<h3 class="text-left">
+					<i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRESTAMISTA
+				</h3>
+				<p class="text-justify">
+					Busca a cada uno de los prestamistas que se encuentran en tu grupo.
+				</p>
+			</div>
+
+			<div class="container-fluid">
+				<ul class="full-box list-unstyled page-nav-tabs">
+					<li>
+						<a href="prestamistanuevo.html"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRESTAMISTA</a>
+					</li>
+					<li>
+						<a href="prestamistalista.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTAMISTAS</a>
+					</li>
+					<li>
+						<a class="active" href="prestamistabuscar.html"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRESTAMISTA</a>
+					</li>
+				</ul>	
+			</div>
+			
+			<div class="container-fluid">
+				<form class="form-neon" action="">
+					<div class="container-fluid">
+						<div class="row justify-content-md-center">
+							<div class="col-12 col-md-6">
+								<div class="form-group">
+									<label for="inputSearch" class="bmd-label-floating">¿Qué prestamista estas buscando?</label>
+									<input type="text" class="form-control" name="busqueda-" id="inputSearch" maxlength="30">
+								</div>
+							</div>
+							<div class="col-12">
+								<p class="text-center" style="margin-top: 40px;">
+									<button type="submit" class="btn btn-raised btn-info"><i class="fas fa-search"></i> &nbsp; BUSCAR</button>
+								</p>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			
+			<div class="container-fluid">
+				<form action="">
+					<input type="hidden" name="eliminar-busqueda" value="eliminar">
+					<div class="container-fluid">
+						<div class="row justify-content-md-center">
+							<div class="col-12 col-md-6">
+								<p class="text-center" style="font-size: 20px;">
+									Resultados de la busqueda <strong>“Buscar”</strong>
+								</p>
+							</div>
+							<div class="col-12">
+								<p class="text-center" style="margin-top: 20px;">
+									<button type="submit" class="btn btn-raised btn-danger"><i class="far fa-trash-alt"></i> &nbsp; ELIMINAR BÚSQUEDA</button>
+								</p>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+
+			<div class="container-fluid">
+				<div class="table-responsive">
+					<table class="table table-dark table-sm">
+						<thead>
+							<tr class="text-center roboto-medium">
+								<th>#</th>
+								<th>DNI</th>
+								<th>NOMBRES</th>
+								<th>APELLIDOS</th>
+								<th>TELEFONO</th>
+                                <th>E-MAIL</th>
+								<th>ACTUALIZAR</th>
+								<th>ELIMINAR</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-center" >
+								<td>1</td>
+								<td>012342567</td>
+								<td>NOMBRE DEL CLIENTE</td>
+								<td>APELLIDO DEL CLIENTE</td>
+								<td>72349874</td>
+                                <td>PRESTAMISTA@PRESTAMISTA.COM</td>
+								<td>
+									<a href="" class="btn btn-success">
+	  									<i class="fas fa-sync-alt"></i>	
+									</a>
+								</td>
+								<td>
+									<form action="">
+										<button type="button" class="btn btn-warning">
+		  									<i class="far fa-trash-alt"></i>
+										</button>
+									</form>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+						<li class="page-item disabled">
+							<a class="page-link" href="#" tabindex="-1">Previous</a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item">
+							<a class="page-link" href="#">Next</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+
+		</section>
+	</main>
+	
+	
+	
+	<script th:src="@{/resources/js/jquery-3.4.1.min.js}" ></script>
+	<script th:src="@{/resources/js/popper.min.js}" ></script>
+	<script th:src="@{/resources/js/bootstrap.min.js}" ></script>
+	<script th:src="@{/resources/js/jquery.mCustomScrollbar.concat.min.js}" ></script>
+	<script th:src="@{/resources/js/bootstrap-material-design.min.js}" ></script>
+	<script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
+	<script th:src="@{/resources/js/main.js}" ></script>
+</body>
+</html>

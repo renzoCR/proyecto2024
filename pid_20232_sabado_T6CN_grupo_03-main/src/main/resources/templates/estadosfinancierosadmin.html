@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Estado Financieros</title>
+    <link rel="stylesheet" th:href="@{/resources/css/normalize.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap-material-design.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/all.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/sweetalert2.min.css}">
+	<script th:src="@{/resources/js/sweetalert2.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/resources/css/jquery.mCustomScrollbar.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/style.css}">
+
+
+</head>
+
+
+<body>
+    <main class="full-box main-container">
+        <section class="full-box nav-lateral">
+            <div class="full-box nav-lateral-bg show-nav-lateral"></div>
+            <div class="full-box nav-lateral-content">
+                <figure class="full-box nav-lateral-avatar">
+					<i class="far fa-times-circle show-nav-lateral"></i>
+					<img src="/resources/assets/img/icon-user.jpg" class="img-fluid" alt="Avatar">
+					<figcaption class="roboto-medium text-center" th:text="${session.nombreUsuario}">
+					</figcaption>
+					<figcaption class="roboto-medium text-center" th:text="${session.nombreRolUsuario}">
+					</figcaption>
+				</figure>
+                <div class="full-box nav-lateral-bar"></div>
+                <nav class="full-box nav-lateral-menu">
+					<ul>
+						<li>
+							<a th:href="@{/admin/home}"><i class="fa fa-home fa-fw"></i> &nbsp; Inicio</a>
+						</li>
+
+						<li>
+							<a href="#" class="nav-btn-submenu"><i class="fa fa-user-secret fa-fw"></i> &nbsp; Jefes de
+								área<i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a th:href="@{/admin/registro}"><i class="fas fa-plus fa-fw"></i> &nbsp; Agregar
+										Jefe de Prestamistas</a>
+								</li>
+								<li>
+									<a th:href="@{/admin/lista}"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp;
+										Lista de Jefes de
+										Prestamistas</a>
+								</li>
+								<!--
+								<li>
+									<a href=""><i class="fas fa-search fa-fw"></i> &nbsp; Buscar Jefe de área</a>
+								</li>
+								-->
+							</ul>
+						</li>
+
+						<li>
+							<a href=""><i class="fas fa-file-invoice-dollar fa-fw"></i> &nbsp; Estados Financieros</a>
+						</li>
+					</ul>
+				</nav>
+            </div>
+        </section>
+        <section class="full-box page-content">
+            <nav class="full-box navbar-info">
+                <a href="#" class="float-left show-nav-lateral">
+                    <i class="fas fa-exchange-alt"></i>
+                </a>
+                <a href="user-update.html">
+                    <i class="fas fa-user-cog"></i>
+                </a>
+                <a href="#" class="btn-exit-system">
+                    <i class="fas fa-power-off"></i>
+                </a>
+            </nav>
+			
+            <div class="full-box page-header">
+                <h3 class="text-left">
+                    <i class="fas fa-hand-holding-usd fa-fw"></i> &nbsp; ESTADOS FINANCIEROS
+                </h3>
+                <p class="text-justify">
+                    Consulta los estados de los prestamos de cada prestamista segun el jefe de prestamistas de cada distrito.
+                </p>
+            </div>
+            <div class="container-fluid">
+                <ul class="full-box list-unstyled page-nav-tabs">
+                    <li>
+                        <a class="active" href="estadoprestamojefe.html"><i class="fa fa-hourglass fa-fw"></i> &nbsp; ESTADOS FINANCIEROS</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="container-fluid">
+				<form class="form-neon" action="">
+					<div class="container-fluid">
+						<h3 class="text-justify">
+							Consulta de estados
+						</h3>
+						<br>
+						<div class="row justify-content-md-center">
+							<div class="col-12 col-md-3">
+								<div class="form-group">
+									<label for="jefeprestamista_lista">Jefe de Prestamistas</label>
+									<select class="form-control" name="jefeprestamista_lista" id="jefeprestamista_lista">
+										<option value="" selected="" disabled="">Seleccione una opción</option>
+										<option value="">Hola</option>
+										<option value="">Chau</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-12 col-md-3">
+								<p class="text-center" style="margin-top: 30px;">
+									<button type="submit" class="btn btn-raised btn-info"><i class="fas fa-search"></i> &nbsp; BUSCAR</button>
+								</p>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+            
+			 <div class="container-fluid">
+				<div class="table-responsive">
+					<table class="table table-dark table-sm">
+						<thead>
+							<tr class="text-center roboto-medium">
+								<th>PRESTAMISTA</th>
+								<th>PRESTADO</th>
+								<th>PAGADO</th>
+								<th>PENDIENTE</th>
+								<th>RENTABILIDAD</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-center" >
+								<td>Juan Quispe</td>
+								<td>2000.00</td>
+								<td>1500.00</td>
+								<td>550.00</td>
+								<td>20%</td>
+							</tr>
+							<tr class="text-center" >
+								<td>Elba Flores</td>
+								<td>5000.00</td>
+								<td>2000.00</td>
+								<td>3000.00</td>
+								<td>20%</td>
+							</tr>
+							<tr class="text-center" >
+								<td>Luci Perez</td>
+								<td>3000.00</td>
+								<td>1700.00</td>
+								<td>1300.00</td>
+								<td>20%</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+						<li class="page-item disabled">
+							<a class="page-link" href="#" tabindex="-1">Previous</a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item">
+							<a class="page-link" href="#">Next</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+        </section>
+    </main>
+    
+    	
+	<script th:src="@{/resources/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/resources/js/popper.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+	<script th:src="@{/resources/js/jquery.mCustomScrollbar.concat.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap-material-design.min.js}"></script>
+	<script>$(document).ready(function () {$('body').bootstrapMaterialDesign();});</script>
+	<script th:src="@{/resources/js/main.js}"></script>
+</body>
+</html>

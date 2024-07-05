@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Nueva solicitud</title>
+	<link rel="stylesheet" th:href="@{/resources/css/normalize.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap-material-design.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/all.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/sweetalert2.min.css}">
+	<script th:src="@{/resources/js/sweetalert2.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/resources/css/jquery.mCustomScrollbar.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/style.css}">
+</head>
+
+<body>
+	<main class="full-box main-container">
+		<section class="full-box nav-lateral">
+			<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div class="full-box nav-lateral-content">
+				<figure class="full-box nav-lateral-avatar">
+					<i class="far fa-times-circle show-nav-lateral"></i>
+					<img src="/resources/assets/img/icon-user.jpg" class="img-fluid" alt="Avatar">
+					<figcaption class="roboto-medium text-center" th:text="${session.nombreUsuario}">
+					</figcaption>
+					<figcaption class="roboto-medium text-center" th:text="${session.nombreRolUsuario}">
+					</figcaption>
+				</figure>
+				<div class="full-box nav-lateral-bar"></div>
+				<nav class="full-box nav-lateral-menu">
+					<ul>
+						<li>
+							<a th:href="@{/prestatario/home}"><i class="fa fa-home fa-fw"></i> &nbsp; Inicio</a>
+						</li>
+
+						<li>
+							<a href="#" class="nav-btn-submenu"><i class="fa fa-envelope fa-fw"></i> &nbsp;
+								Solicitudes<i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a th:href="@{/prestatario/registro}"><i
+											class="fas fa-file-invoice-dollar fa-fw"></i> &nbsp; Nueva Solicitud</a>
+								</li>
+								<li>
+									<a th:href="@{/prestatario/listaCuotas}"><i class="fa fa-hourglass fa-fw"></i>
+										&nbsp; Estados de Prestamos</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</section>
+		<section class="full-box page-content">
+			<nav class="full-box navbar-info">
+				<a href="#" class="float-left show-nav-lateral">
+					<i class="fas fa-exchange-alt"></i>
+				</a>
+				<a href="">
+					<i class="fas fa-user-cog"></i>
+				</a>
+				<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
+				</a>
+			</nav>
+
+			<div class="full-box page-header">
+				<h3 class="text-left">
+					<i class="fas fa-plus fa-fw"></i> &nbsp; NUEVA SOLICITUD
+				</h3>
+				<p class="text-justify">
+					Ingresa la solicitude de prestamo segun el monto que desees.
+				</p>
+			</div>
+			<div class="container-fluid">
+				<ul class="full-box list-unstyled page-nav-tabs">
+					<li>
+						<a class="active" th:href="@{/prestatario/registro}"><i class="fas fa-plus fa-fw"></i> &nbsp;
+							NUEVA SOLICITUD</a>
+					</li>
+					<li>
+						<a th:href="@{/prestatario/listaCuotas}"><i class="fa fa-hourglass fa-fw"></i> &nbsp;
+							ESTADOS DE PRESTAMOS</a>
+					</li>
+				</ul>
+			</div>
+
+			<!--CONTENT-->
+			<div class="container-fluid">
+				<div class="container-fluid form-neon">
+					<form id="formform" method="post" th:action="@{/prestatario/registrar}" autocomplete="off">
+						<fieldset>
+							<input type="hidden" th:value="${session.codigoUsuario}" id="codigoUsuarioRegistro"
+								name="codigoUsuarioRegistro">
+							<legend><i class="far fa-plus-square"></i> &nbsp; Información de la solicitud</legend>
+							<div class="container-fluid">
+								<div class="row">
+
+									<div class="col-12 col-md-4">
+										<div class="form-group">
+											<label for="nombre_prestatario"
+												class="bmd-label-floating">Prestatario</label>
+											<input type="text" readonly class="form-control"
+												th:value="${session.nombreUsuario}" name="nombre_prestatario"
+												id="nombre_prestatario">
+										</div>
+									</div>
+
+									<div class="col-12 col-md-4">
+										<div class="form-group">
+											<label for="prestamo_monto" class="bmd-label-floating">Monto</label>
+											<input type="text" pattern="[0-9.]{1,10}" class="form-control"
+												name="prestamo_monto" id="prestamo_monto" maxlength="5" required>
+
+										</div>
+									</div>
+
+									<div class="col-12 col-md-4">
+										<div class="form-group">
+											<label for="prestamo_fecha">Ingresa Fecha de Prestamo</label>
+											<input type="date" class="form-control" name="prestamo_fecha"
+												id="prestamo_fecha" maxlength="10" onchange="validarFecha()" required>
+										</div>
+									</div>
+
+									<div class="col-12 col-md-4">
+										<div class="form-group">
+											<label for="tasa" class="bmd-label">Tasa Mensual</label>
+											<input type="text" readonly class="form-control mt-4" value="20%"
+												name="tasa" id="tasa">
+										</div>
+									</div>
+
+									<div class="col-12 col-md-6">
+										<div class="form-group">
+											<div class="row">
+												<button type="button" class="btn btn-primary" data-toggle="modal"
+													data-target="#exampleModal">
+													Ingresar Número de Cuenta
+												</button>
+											</div>
+											<input class="form-control" name="numeroObtenido" id="numeroObtenido"
+												readonly pattern="\d{3}-\d{8}-\d{1}-\d{2}"
+												placeholder="000-00000000-0-00">
+										</div>
+									</div>
+
+									<div class="col-12 col-md-4">
+										<div class="form-group">
+											<label for="prestamo_dias" class="bmd-label-floating">Tiempo de
+												prestamo</label>
+											<select class="form-control" name="prestamo_dias" id="prestamo_dias"
+												required>
+												<option value="">Seleccione una opción</option>
+												<option value="15">15 dias</option>
+												<option value="30">30 dias</option>
+												<option value="60">60 dias</option>
+											</select>
+										</div>
+									</div>
+
+								</div>
+						</fieldset>
+						<br><br><br>
+						<p class="text-center" style="margin-top: 40px;">
+							<button type="reset" class="btn btn-raised btn-secondary btn-sm"><i
+									class="fas fa-paint-roller"></i>
+								&nbsp; LIMPIAR</button>
+							&nbsp; &nbsp;
+							<button type="submit" class="btn btn-raised btn-info btn-sm btn-registrar"><i
+									class="far fa-save" id="registrarbtn"></i>
+								&nbsp; REGISTRAR</button>
+
+						</p>
+						<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<fieldset>
+							<legend><i class="far fa-plus-square modal-title" id="exampleModalLabel"></i> &nbsp; Cuentas
+								Bancarias</legend>
+							<div class="container-fluid">
+								<div class="modal-body">
+									<div class="row">
+										<!--<h6 class="modal-title" id="">Elija una cuenta Bancaria que
+											tenga registrada
+										</h6>
+										<div class="col-12 col-md-12">
+											<div class="form-group">
+												<label class="control-label" for="banco">Cta Bancaria
+													Registrada</label>
+												<select class="form-control" id="banco" name="banco">
+													<option value=" ">[Seleccione Banco]</option>
+													<option th:each="row:${bancos}" th:value="${row.codigoNumeroCuenta}"
+														th:text="${row.banco.nombreBanco}" />
+												</select>
+												<input type="number" pattern="[0-9.]{1,10}" class="form-control"
+													name="prestamo_monto" id="prestamo_monto" maxlength="10">
+											</div>
+										</div>
+										<h6 class="modal-title" id="">O elige una cuenta bancaria que no tengas
+											registrado
+										</h6>-->
+										<div class="col-12 col-md-12">
+											<div class="form-group">
+												<label class="control-label" for="banco2">Otras Ctas
+													Bancarias</label>
+												<select class="form-control" id="banco2" name="banco2">
+													<option value=" ">[Seleccione Banco]</option>
+													<option th:each="data:${todosBancos}" th:value="${data.codigoBanco}"
+														th:text="${data.nombreBanco}" />
+												</select>
+												<input type="text" class="form-control" name="numeroCuenta"
+													id="numeroCuenta" maxlength="17" pattern="\d{3}-\d{8}-\d{1}-\d{2}"
+													placeholder="000-00000000-0-00" oninput="match()">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-footer">
+						<p class="text-center" style="margin-top: 40px;">
+							<button class="btn-nuevoNumero btn btn-raised btn-info btn-sm" data-dismiss="modal"
+								id="enter" disabled>
+								Aceptar
+							</button>
+							<button type="button" class="btn btn-raised btn-danger btn-sm"
+								data-dismiss="modal">Cerrar</button>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--fin modal-->
+					</form>
+				</div>
+			</div>
+		</section>
+
+		<script th:src="@{/resources/js/jquery-3.4.1.min.js}"></script>
+		<script th:src="@{/resources/js/popper.min.js}"></script>
+		<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+		<script th:src="@{/resources/js/jquery.mCustomScrollbar.concat.min.js}"></script>
+		<script th:src="@{/resources/js/bootstrap-material-design.min.js}"></script>
+		<script>$(document).ready(function () {$('body').bootstrapMaterialDesign();});</script>
+		<script th:src="@{/resources/js/main.js}"></script>
+
+		<script>
+			$(document).on("click", ".btn-nuevoNumero", function () {
+				let num;
+				num = $("#numeroCuenta").val()
+				$("#numeroObtenido").val(num);
+			})
+		</script>
+
+		<script>
+			function validarFecha() {
+				var inputFecha = document.getElementById("prestamo_fecha").value;
+				var fechaActual = new Date().toISOString().split('T')[0];
+
+				if (inputFecha < fechaActual) {
+					alert("Por favor, selecciona una fecha de hoy en adelante.");
+					document.getElementById("prestamo_fecha").value = fechaActual;
+				}
+			}
+		</script>
+		<script>
+
+			function match() {
+				var txt;
+				var enter = document.getElementById("enter");
+				var pattern = /\d{3}-\d{8}-\d{1}-\d{2}/;
+				txt = document.getElementById("numeroCuenta").value;
+				if (pattern.test(txt)) {
+					enter.disabled = false;
+				} else {
+					enter.disabled = true;
+				}
+			}
+		</script>
+
+</body>
+
+
+
+</html>

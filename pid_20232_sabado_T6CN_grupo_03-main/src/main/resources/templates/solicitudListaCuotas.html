@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Lista Cuotas</title>
+	<link rel="stylesheet" th:href="@{/resources/css/normalize.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap-material-design.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/all.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/sweetalert2.min.css}">
+	<script th:src="@{/resources/js/sweetalert2.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/resources/css/jquery.mCustomScrollbar.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/style.css}">
+
+</head>
+
+<body>
+	<main class="full-box main-container">
+		<section class="full-box nav-lateral">
+			<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div class="full-box nav-lateral-content">
+				<figure class="full-box nav-lateral-avatar">
+					<i class="far fa-times-circle show-nav-lateral"></i>
+					<img src="/resources/assets/img/icon-user.jpg" class="img-fluid" alt="Avatar">
+					<figcaption class="roboto-medium text-center" th:text="${session.nombreUsuario}">
+					</figcaption>
+					<figcaption class="roboto-medium text-center" th:text="${session.nombreRolUsuario}">
+					</figcaption>
+				</figure>
+				<div class="full-box nav-lateral-bar"></div>
+				<nav class="full-box nav-lateral-menu">
+					<ul>
+						<li>
+							<a th:href="@{/prestatario/home}"><i class="fa fa-home fa-fw"></i> &nbsp; Inicio</a>
+						</li>
+
+						<li>
+							<a href="#" class="nav-btn-submenu"><i class="fa fa-envelope fa-fw"></i> &nbsp;
+								Solicitudes<i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a th:href="@{/prestatario/registro}"><i
+											class="fas fa-file-invoice-dollar fa-fw"></i> &nbsp; Nueva Solicitud</a>
+								</li>
+								<li>
+									<a th:href="@{/prestatario/listaCuotas}"><i class="fa fa-hourglass fa-fw"></i>
+										&nbsp; Estados de Prestamos</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</section>
+		<section class="full-box page-content">
+			<nav class="full-box navbar-info">
+				<a href="#" class="float-left show-nav-lateral">
+					<i class="fas fa-exchange-alt"></i>
+				</a>
+				<a href="user-update.html">
+					<i class="fas fa-user-cog"></i>
+				</a>
+				<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
+				</a>
+			</nav>
+
+			<div class="full-box page-header">
+				<h3 class="text-left">
+					<i class="fas fa-hand-holding-usd fa-fw"></i> &nbsp; Lista Cuotas
+				</h3>
+				<p class="text-justify">
+					Registra los pagos cancelados por los clientes / prestatarios
+				</p>
+			</div>
+			<div class="container-fluid">
+				<ul class="full-box list-unstyled page-nav-tabs">
+										<li>
+						<a th:href="@{/prestatario/registro}"><i class="fas fa-plus fa-fw"></i> &nbsp;
+							NUEVA SOLICITUD</a>
+					</li>
+										<li>
+						<a class="active"  th:href="@{/prestatario/listaCuotas}"><i class="fa fa-hourglass fa-fw"></i> &nbsp;
+							ESTADOS DE PRESTAMOS</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="container-fluid">
+				<form class="form-neon" action="">
+					<div class="container-fluid">
+						<div class="row justify-content-md-center">
+							<input type="hidden" id="cboPrestatario" th:value="${session.codigoUsuario}">
+
+							<div class="col-12 col-md-4">
+								<div class="form-group">
+									<label for="inputSearchInicio">Fecha (Desde)</label>
+									<input type="date" class="form-control" name="busqueda_reservation_inicio"
+										id="inputSearchInicio" maxlength="150">
+								</div>
+							</div>
+							<div class="col-12 col-md-4">
+								<div class="form-group">
+									<label for="inputSearchFinal">Fecha (Hasta)</label>
+									<input type="date" class="form-control" name="busqueda_reservation_final"
+										id="inputSearchFinal" maxlength="150">
+								</div>
+							</div>
+							<div class="col-12 col-md-4">
+								<div class="form-group">
+									<button type="submit" class="btn_filtrar  btn">Filtrar</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div class="container-fluid">
+				<div class="table-responsive">
+					<table id="tableMaterial" class="table table-dark table-sm">
+						<thead>
+							<tr class="text-center roboto-medium">
+								<th>CODIGO</th>
+								<th>PRESTAMOS</th>
+								<th>MONTO</th>
+								<th>CUOTA</th>
+								<th>DEUDA</th>
+								<th>FECHA DE VENCIMIENTO</th>
+								<th>ESTADO</th>
+
+							</tr>
+						</thead>
+						<tbody class="text-center">
+							<tr class="text-center">
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<!--	<td>
+									<a data-toggle="modal" data-target="#modalPago" href="" class="btn btn-info p-0">
+	  									<i class="fa fa-check"></i>	
+									</a>
+								</td> -->
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</section>
+	</main>
+
+
+	<script th:src="@{/resources/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/resources/js/popper.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+	<script th:src="@{/resources/js/jquery.mCustomScrollbar.concat.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap-material-design.min.js}"></script>
+	<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+	<script>$(document).ready(function () {$('body').bootstrapMaterialDesign();});</script>
+	<script th:src="@{/resources/js/main.js}"></script>
+
+	<!--	<script>
+		$(document).on("change", "#cboPrestatario", function () {
+
+		/*	let aerolinea = $("#aer").val();
+			let servicio = $("#ser").val();
+
+
+			let celdaYbotonActualizar = `<td class="tamaño_celda" style="text-align: center;"><button class="btn btn-warning btn-actualizar" data-toggle="modal" data-target="#modalRegistroMaterial"><i
+									class="bi bi-pencil"></i></button></td>`;
+			let celdaYbotonEliminar = `<td class="tamaño_celda" style="text-align: center;"><button
+								class="btn btn-danger btn-eliminar"><i class="bi bi-trash"></i></button></td>`;
+								*/
+			//reorganizar tabla
+			$("#tableMaterial tbody").empty();
+			
+		})
+	</script>
+	-->
+	<script>
+		$(document).on("click", ".btn-info", function () {
+			let cod;
+
+			//obtener los datos de la cuota
+			cod = $(this).parents("tr").find("td")[0].innerHTML;
+			$.get("/prestamista/buscarCuotas?codigo=" + cod, function (response) {
+				$("#codigoCuota").val(response.codigoCuota);
+				$("#pago_prestamo").val(response.prestamo.codigoPrestamo);
+				$("#pago_prestatario").val(response.usuario.nombreUsuario);
+				$("#pago_cuota").val(response.numeroCuota);
+				$("#pago_monto").val(response.deuda);
+				$("#pago_fechvenc").val(response.fechaFinCuota);
+				$("#monto_cuota").val(response.montoCuota);
+				$("#estado").val(response.estado);
+
+				//logica para el calculo de mora
+
+				const fechaLocal = new Date();
+				const año = fechaLocal.getFullYear();
+				const mes = (fechaLocal.getMonth() + 1).toString().padStart(2, '0');
+				const dia = fechaLocal.getDate().toString().padStart(2, '0');
+				const fechaFormateada = `${año}-${mes}-${dia}`;
+				var fechaVen = $("#pago_fechvenc").val()
+
+				const date1 = new Date(fechaFormateada);
+				const date2 = new Date(fechaVen);
+				const diferenciaEnMilisegundos = date1 - date2;
+
+				// Convierte la diferencia a días
+				const diferenciaEnDias = diferenciaEnMilisegundos / (1000 * 60 * 60 * 24);
+
+				const monto = $("#monto_cuota").val()
+
+				if (diferenciaEnDias <= 0) {
+					$("#mora").val("0.00");
+				} else if (diferenciaEnDias > 0) {
+					const resultadoPotencia = Math.pow(1.006096, diferenciaEnDias);
+					const resultadoResta = resultadoPotencia - 1;
+					const mora = resultadoResta * monto;
+					const moraFinal = mora.toFixed(3);
+
+					$("#mora").val(moraFinal);
+				}
+			})
+		})
+	</script>
+
+	<script>
+		$(document).on("click", ".btn_filtrar", function (event) {
+			event.preventDefault();
+
+			let cbo = $("#cboPrestatario").val();
+			let f1 = $("#inputSearchInicio").val();
+			let f2 = $("#inputSearchFinal").val();
+
+			$.get("/prestatario/ListarNumeroCuenta?codUsuario=" + cbo + "&fecha1=" + f1 + "&fecha2=" + f2, function (response) {
+				console.log(response); // Imprime la respuesta en la consola
+
+				// Limpiar la tabla antes de agregar nuevas filas
+				$("#tableMaterial tbody").empty();
+
+				$.each(response, function (index, item) {
+					$("#tableMaterial tbody").append(
+						"<tr><td>" + item.codigoCuota + "</td><td>" + item.prestamo.codigoPrestamo +
+						"</td><td>" + item.montoCuota + "</td><td>"
+						+ item.numeroCuota + "</td>" + "</td><td>"
+						+ item.deuda + "</td>" + "</td><td>"
+						+ item.fechaFinCuota + "</td>" + "</td><td>"
+						+ item.estado + "</td>" /*+ botonRegistrar*/ + "</tr>");
+				});
+			});
+		});
+
+	</script>
+
+
+</body>
+
+</html>

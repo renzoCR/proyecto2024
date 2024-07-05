@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Lista de solicitudes</title>
+	<link rel="stylesheet" th:href="@{/resources/css/normalize.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap-material-design.min.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/all.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/sweetalert2.min.css}">
+	<script th:src="@{/resources/js/sweetalert2.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/resources/css/jquery.mCustomScrollbar.css}">
+	<link rel="stylesheet" th:href="@{/resources/css/style.css}">
+
+
+</head>
+
+
+<body>
+	<main class="full-box main-container">
+		<section class="full-box nav-lateral">
+			<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div class="full-box nav-lateral-content">
+				<figure class="full-box nav-lateral-avatar">
+					<i class="far fa-times-circle show-nav-lateral"></i>
+					<img src="/resources/assets/img/icon-user.jpg" class="img-fluid" alt="Avatar">
+					<figcaption class="roboto-medium text-center" th:text="${session.nombreUsuario}">
+					</figcaption>
+					<figcaption class="roboto-medium text-center" th:text="${session.nombreRolUsuario}">
+					</figcaption>
+				</figure>
+				<div class="full-box nav-lateral-bar"></div>
+				<nav class="full-box nav-lateral-menu">
+					<ul>
+						<li>
+							<a th:href="@{/prestamista/home}"><i class="fa fa-home fa-fw"></i> &nbsp; Inicio</a>
+						</li>
+
+						<li>
+							<a href="#" class="nav-btn-submenu"><i class="fa fa-envelope fa-fw"></i> &nbsp;
+								Solicitudes<i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a th:href="@{/prestamista/lista}"><i class="fas fa-file-invoice-dollar fa-fw"></i>
+										&nbsp; Lista de
+										Solicitudes</a>
+								</li>
+								<li>
+									<a th:href="@{/prestamista/listaCuotas}"><i class="fa fa-book fa-fw"></i> &nbsp;
+										Registro de Pagos de Prestamos</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</section>
+		<section class="full-box page-content">
+			<nav class="full-box navbar-info">
+				<a href="#" class="float-left show-nav-lateral">
+					<i class="fas fa-exchange-alt"></i>
+				</a>
+				<a href="">
+					<i class="fas fa-user-cog"></i>
+				</a>
+				<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
+				</a>
+			</nav>
+
+			<div class="full-box page-header">
+				<h3 class="text-left">
+					<i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE SOLICITUDES
+				</h3>
+				<p class="text-justify">
+					Listado de las solicitudes de prestamo registradas por los clientes.
+				</p>
+			</div>
+
+			<div class="container-fluid">
+				<ul class="full-box list-unstyled page-nav-tabs">
+					<li>
+						<a class="active" th:href="@{/prestamista/lista}"><i class="fas fa-clipboard-list fa-fw"></i>
+							&nbsp; LISTA DE SOLICITUDES</a>
+					</li>
+					<li>
+						<a th:href="@{/prestamista/listaCuotas}"><i class="fas fa-hand-holding-usd fa-fw"></i> &nbsp;
+							REGISTRO DE PAGOS DE PRESTAMOS</a>
+					</li>
+				</ul>
+			</div>
+
+
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="content">
+							<table class="table table-dark table-sm" id="id_table">
+								<thead>
+									<tr class="text-center roboto-medium">
+										<th style="width: 5%">Código</th>
+										<th style="width: 7%">Monto</th>
+										<th style="width: 7%">Interes</th>
+										<th style="width: 7%">Total a pagar</th>										
+										<th style="width: 7%">F.Inicio Prestamo</th>
+										<th style="width: 7%">Dias</th>
+										<th style="width: 7%">F.Fin Prestamo</th>
+										<th style="width: 7%">Estado</th>
+										<th style="width: 7%">Ver Detalle</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="text-center" th:each="row:${solicitudes}">
+										<td th:text="${row.codigoSolicitud}"></td>
+										<td th:text="${row.montoSolicitud}"></td>
+										<td th:text="${row.interes}"></td>
+										<td th:text="${row.montoTotal}"></td>										
+										<td th:text="${row.fechaInicioPrestamo}"></td>
+										<td th:text="${row.diasSolicitud}"></td>
+										<td th:text="${row.fechaFinPrestamo}"></td>
+										<td th:text="${row.estado.descripcion}"></td>
+
+										<td>
+											<a data-toggle="modal" data-target="#modalPrestamista" href="#"
+												class="btn btn-info p-0">
+												<i class="fas fa-search lupa"></i>
+											</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal fade" id="modalPrestamista">
+				<div class="modal-dialog modal-dialog-centered modal-login modal-lg">
+
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-body">
+							<form id="idRegistra" accept-charset="UTF-8" class="form-horizontal " method="post"
+								action="grabar">
+							<input type="hidden" th:value="${session.codigoUsuario}" id="codigoUsuarioRegistro"
+								name="codigoUsuarioRegistro">								
+								<div class="panel-group" id="steps">
+									<!-- Step 1 -->
+									<div class="panel panel-default">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<div class="panel-body container-fluid row">
+											<fieldset>
+												<legend><i class="far fa-plus-square"></i> &nbsp; Detalles de la
+													solicitud</legend>
+												<div class="container-fluid">
+													<div class="row">
+
+														<div class="form-group col-12 col-md-4">
+															<label class="col-lg-3 control-label"
+																for="id_codigoSolicitud">Código</label>
+															<div>
+																<input class="form-control" id="id_codigoSolicitud"
+																	readonly="readonly" name="id_codigoSolicitud"
+																	type="text" />
+															</div>
+														</div>
+
+
+														<div class="form-group col-12 col-md-4">
+															<label class="col-lg-3 control-label"
+																for="id_ID">Prestatario</label>
+															<div>
+																<input class="form-control" id="nombrePrestatario"
+																	readonly="readonly" name="nombrePrestatario"
+																	type="text" />
+															</div>
+														</div>
+														<!-- <div class="form-group col-12 col-md-4">
+		                                        <label class="col-lg-3 control-label" for="id_ID" >Prestamista</label>
+		                                        <div >
+		                                           <input class="form-control" id="nombre_prestamista" readonly="readonly" name="nombrePrestamista" type="text" />
+		                                        </div>
+		                                     </div>!-->
+														<div class="form-group col-12 col-md-4">
+															<label class="col-lg-3 control-label"
+																for="id_act_nombres">Monto</label>
+															<div>
+																<input class="form-control" id="monto" name="monto"
+																	readonly="readonly" type="text" />
+															</div>
+														</div>
+														<div class="form-group col-12 col-md-4">
+															<label class="col-lg-3 control-label"
+																for="id_act_nombres">Interes</label>
+															<div>
+																<input class="form-control" id="interes" name="interes"
+																	readonly="readonly" type="text" />
+															</div>
+														</div>
+														<div class="form-group col-12 col-md-4">
+															<label class="col-lg-9 control-label"
+																for="id_act_nombres">Total a pagar</label>
+															<div>
+																<input class="form-control" id="montoTotal" name="montoTotal"
+																	readonly="readonly" type="text" />
+															</div>
+														</div>
+														<div class="form-group col-12 col-md-4">
+															<label class="col-lg-9 control-label"
+																for="id_act_apellidos">Fecha De
+																Inicio de Prestamo</label>
+															<div>
+																<input class="form-control" id="fechaInicio"
+																	name="fechaInicio" readonly="readonly"
+																	type="text" />
+															</div>
+														</div>
+														<input type="hidden" class="form-control" id="fechaRegistro"
+															name="fechaRegistro" />
+														<input type="hidden" class="form-control" id="numeroCuenta"
+															name="numeroCuenta" />
+														<input type="hidden" class="form-control" id="dias"
+															name="dias" />
+
+														<div class="form-group col-12 col-md-4">
+															<label class="col-lg-3 control-label"
+																for="id_act_fecha_nacimiento">Estado</label>
+															<div>
+																<input class="form-control" id="estado"
+																	readonly="readonly" name="estado" type="text" />
+															</div>
+														</div>
+											<!--			<div class="form-group col-12 col-md-4">
+															<label class="col-lg-3 control-label"
+																for="id_act_fecha_nacimiento">Tasa</label>
+															<div>
+																<input class="form-control" id="tasa"
+																	readonly="readonly" valu name="tasa" type="text" />
+															</div>
+														</div>
+														-->
+														<div class="form-group col-12 col-md-4">
+															<label class="col-lg-9 control-label"
+																for="id_act_fecha_nacimiento">Fecha Fin de
+																Prestamo</label>
+															<div>
+																<input class="form-control" id="fechaFinPrestamo"
+																	readonly="readonly" name="fechaFinPrestamo"
+																	type="text" />
+															</div>
+														</div>
+
+
+													</div>
+												</div>
+
+											</fieldset>
+
+
+											<div class=" row  mx-auto">
+												<input type="hidden" name="codigoEstado" id="estadoCambio">
+												<input type="hidden" name="codigoUsuario" id="codigoUsuario">
+
+												<div class="form-group">
+													<div class="col-lg-9 col-lg-offset-3">
+														<button type="submit"
+															class="btn btn-raised btn-success btn-sm btn."
+															id="id_Guardar" name="accion"
+															value="accion1">APROBAR</button>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="col-lg-9 col-lg-offset-3">
+														<button type="submit" class="btn btn-raised btn-danger btn-sm"
+															id="id_btn_actualiza" name="accion"
+															value="accion2">RECHAZAR</button>
+													</div>
+												</div>
+
+											</div>
+
+
+										</div>
+									</div>
+
+
+
+								</div>
+							</form>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-center">
+					<li class="page-item disabled">
+						<a class="page-link" href="#" tabindex="-1">Previous</a>
+					</li>
+					<li class="page-item"><a class="page-link" href="#">1</a></li>
+					<li class="page-item"><a class="page-link" href="#">2</a></li>
+					<li class="page-item"><a class="page-link" href="#">3</a></li>
+					<li class="page-item">
+						<a class="page-link" href="#">Next</a>
+					</li>
+				</ul>
+			</nav>
+			</div>
+		</section>
+
+
+
+	</main>
+
+	<script th:src="@{/resources/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/resources/js/popper.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+	<script th:src="@{/resources/js/jquery.mCustomScrollbar.concat.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap-material-design.min.js}"></script>
+	<script>$(document).ready(function () {$('body').bootstrapMaterialDesign();});</script>
+	<script th:src="@{/resources/js/main.js}"></script>
+	<script src="text/javascript">
+
+	
+			
+			
+
+
+		$("#id_btn_filtrar").click(function () {
+			$.getJSON("consultaCrudEmpleado", {"filtro": fil}, function (lista) {
+				agregarGrilla(lista);
+			});
+		});
+
+
+		function agregarGrilla(lista) {
+			$('#id_table').DataTable().clear();
+			$('#id_table').DataTable().destroy();
+			$('#id_table').DataTable({
+				data: lista,
+				searching: false,
+				ordering: true,
+				processing: true,
+				pageLength: 10,
+				lengthChange: false,
+				columns: [
+
+					{
+						data: function (row, type, val, meta) {
+							var salida = '<button type="button" style="width: 90px" class="btn btn-info btn-sm" onclick="editar(\'' + '\')">Editar</button>';
+							return salida;
+						}, className: 'text-center'
+					},
+					{
+						data: function (row, type, val, meta) {
+							var salida = '<button type="button" style="width: 90px" class="btn btn-warning btn-sm" onclick="accionEliminar(\'' + row.idEmpleado + '\')">' + (row.estado == 1 ? 'Activo' : 'Inactvo') + '</button>';
+							return salida;
+						}, className: 'text-center'
+					},
+				]
+			});
+		}
+
+
+
+		function editar(id, nombres, apellidos, fechaNacimiento, idpais) {
+			$('#id_ID').val(id);
+			$('#id_act_nombres').val(nombres);
+			$('#id_act_apellidos').val(apellidos);
+			$('#id_act_fecha_nacimiento').val(fechaNacimiento);
+			$('#id_act_pais').val(idpais);
+			$('#btn btn-info p-0').modal("show");
+		}
+</script>
+
+<script>
+		$(document).on("click", ".lupa", function () {
+			let cod;
+			let result;
+			let aprob=$("#id_Guardar").val();
+			let desaprob=$("#id_btn_actualiza").val();
+			
+			
+			
+			cod = $(this).parents("tr").find("td")[0].innerHTML;
+			$.get("/prestamista/buscar?codigo=" + cod, function (response) {
+				$("#id_codigoSolicitud").val(response.codigoSolicitud);
+				$("#nombrePrestatario").val(response.usuario.nombreUsuario);
+				$("#nombre_prestamista").val(response.clave);
+				$("#interes").val(response.interes);
+				$("#montoTotal").val(response.montoTotal);
+				$("#monto").val(response.montoSolicitud);
+				$("#fechaInicio").val(response.fechaInicioPrestamo);
+				$("#estado").val(response.estado.descripcion);
+				$("#fechaFinPrestamo").val(response.fechaFinPrestamo);
+				$("#estadoCambio").val(response.estado.codigo);
+				$("#codigoUsuario").val(response.usuario.codigoUsuario);
+				$("#fechaRegistro").val(response.fechaRegistroSolicitud);
+				$("#numeroCuenta").val(response.numero.codigoNumeroCuenta);
+				$("#dias").val(response.diasSolicitud);
+				
+				
+				result=response.estado.codigo;
+				
+				
+				
+				if(result==2){
+				$("#id_btn_actualiza").hide();
+				$("#id_Guardar").hide();
+			}
+			else if(result==3){
+				$("#id_Guardar").hide();
+				$("#id_btn_actualiza").hide();
+			}
+			else{
+				$("#id_btn_actualiza").show();
+				$("#id_Guardar").show();
+			}
+			})
+		})
+		
+	</script>
+
+	<script>
+
+
+
+
+	</script>
+
+</body>
+
+</html>
